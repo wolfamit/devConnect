@@ -58,7 +58,7 @@ const SearchProject = () => {
     //   alert('Comment cannot be empty!');
     //   return;
     // }
-    console.log(projectId , comment)
+    // console.log(projectId , comment)
     try {
       const res = await commentProject(projectId, comment);
       setProjects((prevProjects) =>
@@ -224,7 +224,7 @@ const SearchProject = () => {
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5 }}
           >
-            No projects match your search.
+            No projects Found.
           </motion.p>
         )}
       </motion.div>

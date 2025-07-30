@@ -8,40 +8,45 @@ const AuthPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
+  const [loading, setLoading] = useState(false);
+
   const navigate = useNavigate();
 
   useEffect(() => {
     if (localStorage.getItem('token')) {
-      navigate('/home'); // Redirect to home if already logged in
+      navigate('/home');
     }
   }, [navigate]);
 
   const handleSubmit = async () => {
+    if (loading) return;
+
     try {
+      setLoading(true);
       if (isSignIn) {
-        const userData = { email, password };
         if (!email || !password) {
           alert('Please fill in all fields');
+          setLoading(false);
           return;
         }
-        const response = await signin(userData, navigate);
+        const response = await signin({ email, password }, navigate);
         console.log('Sign In Response:', response);
       } else {
-        const userData = { email, password, name };
         if (!email || !password || !name) {
           alert('Please fill in all fields');
+          setLoading(false);
           return;
         }
-        const response = await signup(userData, navigate);
+        const response = await signup({ email, password, name }, navigate);
         console.log('Sign Up Response:', response);
       }
     } catch (error) {
       console.error('Error during authentication:', error);
-      alert('Authentication failed. Please try again.');
+    } finally {
+      setLoading(false);
     }
   };
 
-  // Animation variants
   const containerVariants = {
     hidden: { opacity: 0, y: 50 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: 'easeOut' } },
@@ -77,13 +82,14 @@ const AuthPage = () => {
         >
           {isSignIn ? 'Sign In' : 'Sign Up'}
         </motion.h2>
+
         <div className="space-y-6">
           {!isSignIn && (
             <motion.input
               type="text"
               placeholder="Username"
               value={name}
-              onChange={(e) => setName(e.target.value)} // Fixed bug
+              onChange={(e) => setName(e.target.value)}
               className="w-full p-3 bg-white/20 text-white placeholder-gray-300 border border-white/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-300 transition duration-300"
               required
               variants={inputVariants}
@@ -116,17 +122,22 @@ const AuthPage = () => {
             animate="visible"
             custom={isSignIn ? 1 : 2}
           />
+
           <motion.button
             type="button"
             onClick={handleSubmit}
-            className="w-full bg-indigo-600 text-white py-3 rounded-lg hover:bg-indigo-700 transition duration-300"
+            className={`w-full py-3 rounded-lg transition duration-300 ${
+              loading ? 'bg-indigo-400 cursor-not-allowed' : 'bg-indigo-600 hover:bg-indigo-700'
+            } text-white`}
             variants={buttonVariants}
             whileHover="hover"
             whileTap="tap"
+            disabled={loading}
           >
-            {isSignIn ? 'Sign In' : 'Sign Up'}
+            {loading ? 'Loading...' : isSignIn ? 'Sign In' : 'Sign Up'}
           </motion.button>
         </div>
+
         <motion.div
           className="mt-4 text-center text-gray-200"
           initial={{ opacity: 0 }}
