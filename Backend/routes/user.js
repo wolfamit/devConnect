@@ -1,7 +1,7 @@
 import express from 'express';
 import auth from '../Middlewares/authMiddleware.js';
-import { signup } from '../controllers/auth.js';
-import { signin } from '../controllers/auth.js';
+import { signup } from '../Controllers/auth.js';
+import { signin } from '../Controllers/auth.js';
 import { addProject, commentOnProject, editProfile, fetchProjects } from '../Controllers/user.js';
 
 const router = express.Router();

@@ -3,7 +3,6 @@ import bcrypt from 'bcrypt';
 import User from '../Models/AuthModel.js'
 // import { stripe } from '../utility/stripe.js';
 
-
 export const signup = async (req, res) => {
   const { name, email, password } = req.body;
   try {
@@ -42,8 +41,6 @@ export const signup = async (req, res) => {
     res.status(500).json({ message: 'Internal server error' });
   }
 };
-
-
 
 export const signin = async (req, res) => {
   const { email, password } = req.body;

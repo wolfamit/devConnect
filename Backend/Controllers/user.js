@@ -30,7 +30,6 @@ export const editProfile = async (req, res) => {
     }
 };
 
-
 export const addProject = async (req, res) => {
     const { title, description, techStack, github, liveLink } = req.body;
     const { id } = req.params; // Assuming you have user ID from auth middleware
@@ -85,8 +84,6 @@ export const fetchProjects = async (req, res) => {
     res.status(500).json({ success: false, message: 'Server Error' });
   }
 };
-
-
 
 export const searchProjects = async (req, res) => {
     const { query } = req.query;
