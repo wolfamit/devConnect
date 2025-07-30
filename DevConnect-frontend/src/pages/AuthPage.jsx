@@ -38,6 +38,7 @@ const AuthPage = () => {
           return;
         }
         const response = await signup({ email, password, name }, navigate);
+        alert('Account created Successful! Please Sign In');
         console.log('Sign Up Response:', response);
       }
     } catch (error) {
